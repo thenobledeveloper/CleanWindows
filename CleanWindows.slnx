@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CrossOptimizerAPI/CrossOptimizerAPI.csproj" Id="50a06a79-4f33-44db-bc2a-24cc0057fd9a" />
+  <Project Path="OptimizerUI/OptimizerUI.csproj" Id="e1ca6ec5-3b2c-4ff8-a80c-e576130936e1" />
+</Solution>

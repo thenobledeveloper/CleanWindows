@@ -1,0 +1,92 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:OptimizerUI"
+        x:Class="OptimizerUI.MainWindow"
+		RequestedThemeVariant="Dark"
+        x:DataType="local:MainWindow"
+        Title="CrossOptimizer"
+        Width="700" Height="650"
+        MinWidth="650"
+        WindowStartupLocation="CenterScreen">
+
+	<Grid>
+		<Grid RowDefinitions="*, Auto" Margin="20">
+			<Grid Name="MainContentArea" RowDefinitions="Auto, *, Auto">
+				<StackPanel Grid.Row="0" Spacing="5" Margin="0,0,0,20">
+					<TextBlock Text="Це утиліта для мінімізації телеметрії та оптимізації Windows."
+                               HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" TextAlignment="Center"/>
+					<TextBlock Text="Будьте обережними." HorizontalAlignment="Center" Foreground="Red" FontSize="12"/>
+				</StackPanel>
+
+				<ScrollViewer Grid.Row="1">
+					<StackPanel Spacing="15">
+						<TextBlock Text="Налаштування приватності (Реєстр):" FontWeight="SemiBold"/>
+						<UniformGrid Columns="3">
+							<Button Content="Min Приватність" Click="OnPrivacyMinClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+							<Button Content="Med Приватність" Click="OnPrivacyMedClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+							<Button Content="Max Приватність" Click="OnPrivacyMaxClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						</UniformGrid>
+						<Button Content="Відкотити зміни (Точка відновлення)" Click="OnRollbackClick" Margin="5" Background="#442222" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+
+						<TextBlock Text="Управління компонентами:" FontWeight="SemiBold" Margin="0,10,0,0"/>
+						<UniformGrid Columns="3">
+							<Button Content="Вимкнути служби" Click="OnOpenServicesDialogClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+							<Button Content="Видалити додатки" Click="OnOpenAppsDialogClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+							<Button Content="Специфікація змін" Click="OnShowSystemWarningClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						</UniformGrid>
+
+						<TextBlock Text="Очищення системи:" FontWeight="SemiBold" Margin="0,10,0,0"/>
+						<UniformGrid Columns="3">
+							<Button Content="Очистити Local TEMP" Click="OnCleanLocalClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+							<Button Content="Очистити Global TEMP" Click="OnCleanGlobalClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+							<Button Content="Статистика сесії" Click="OnShowStatsClick" Margin="5" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						</UniformGrid>
+
+						<Separator Margin="0,15"/>
+						<TextBlock Name="StatusResult" Text="Статус: Завантаження..." TextWrapping="Wrap" Foreground="#AAAAAA" FontSize="13" TextAlignment="Center"/>
+					</StackPanel>
+				</ScrollViewer>
+
+				<StackPanel Grid.Row="2" Spacing="10" Margin="0,20,0,0">
+					<TextBlock Text="Швидкий запуск (Admin):" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+					<UniformGrid Rows="1">
+						<Button Content="CMD" Click="OnOpenCmdClick" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						<Button Content="PS" Click="OnOpenPowerShellClick" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						<Button Content="Explorer" Click="OnOpenExplorerClick" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						<Button Content="TaskMgr" Click="OnOpenTaskMgrClick" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						<Button Content="Regedit" Click="OnOpenRegeditClick" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						<Button Content="Services" Click="OnOpenServicesClick" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+					</UniformGrid>
+				</StackPanel>
+			</Grid>
+
+			<UniformGrid Grid.Row="1" Columns="2" Margin="0,10,0,0">
+				<Button Content="Заблокувати UI" Click="OnLockUIClick" FontSize="10" Opacity="0.5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+				<Button Content="Розблокувати UI" Click="OnUnlockUIClick" FontSize="10" Opacity="0.5" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			</UniformGrid>
+		</Grid>
+
+		<Grid Name="OverlayDialog" IsVisible="False" Background="#D8000000" ZIndex="100">
+			<Border Background="#1E1E1E" BorderBrush="#333333" BorderThickness="1" CornerRadius="8" Padding="20" Width="450" Height="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+				<Grid RowDefinitions="Auto, Auto, *, Auto">
+					<TextBlock Name="DialogTitle" Grid.Row="0" FontWeight="Bold" FontSize="18" Margin="0,0,0,15" HorizontalAlignment="Center"/>
+
+					<TextBox Name="SearchTextBox" Grid.Row="1" Watermark="Пошук..." TextChanged="OnSearchTextChanged" Margin="0,0,0,15"/>
+
+					<ListBox Name="DialogListBox" Grid.Row="2" Background="#111111" CornerRadius="4" Margin="0,0,0,15">
+						<ListBox.ItemTemplate>
+							<DataTemplate x:DataType="local:DialogItem">
+								<CheckBox Content="{Binding DisplayName}" IsChecked="{Binding IsChecked, Mode=TwoWay}" Margin="5"/>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+
+					<UniformGrid Grid.Row="3" Columns="2">
+						<Button Content="Виконати вибране" Click="OnDialogApplyClick" Margin="5" Background="#224422" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+						<Button Content="Скасувати" Click="OnDialogCancelClick" Margin="5" Background="#442222" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+					</UniformGrid>
+				</Grid>
+			</Border>
+		</Grid>
+	</Grid>
+</Window>
